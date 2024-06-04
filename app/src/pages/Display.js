@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useProvidersContext } from '../hooks/useProvidersContext.js';
+
 import StoredProvider from '../components/StoredProvider';
 
 const Display = () => {
-    const [providers, setProviders] = useState(null);
+    const { providers, dispatch } = useProvidersContext()
 
     useEffect(() => {
         const fetchProviders = async () => {
@@ -10,12 +12,12 @@ const Display = () => {
             const json = await response.json();
 
             if (response.ok) {
-                setProviders(json);
+                dispatch({ type: 'SET_PROVIDERS', payload: json });
             }
         };
 
         fetchProviders();
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="grid grid-cols-3 gap-4 p-4 ml-10">
