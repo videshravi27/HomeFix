@@ -37,6 +37,7 @@ const PostProvider = () => {
     };
 
     return (
+        <div className="bg-gray-100">
         <form className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
             <h3 className="text-2xl font-bold mb-4">Add your Service</h3>
 
@@ -85,6 +86,7 @@ const PostProvider = () => {
             </button>
             {error && <div className="text-red-500 text-xs italic mt-4">{error}</div>}
         </form>
+        </div>
     );
 };
 
