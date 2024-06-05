@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useProvidersContext } from "../hooks/useProvidersContext";
+import { useServicesContext } from "../hooks/useServicesContext";
 
-const PostProvider = () => {
-    const { dispatch } = useProvidersContext();
+const CreateService = () => {
+    const { dispatch } = useServicesContext();
 
     const [name, setName] = useState('');
     const [servicesOffered, setServicesOffered] = useState('');
@@ -10,17 +10,18 @@ const PostProvider = () => {
     const [contactNumber, setContactNumber] = useState('');
     const [price, setPrice] = useState('');
     const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Check if any field is empty
         if (!name || !servicesOffered || !location || !contactNumber || !price) {
             setError('Fill all fields');
+            setSuccessMessage(null);
             return;
         }
 
-        const provider = { name, servicesOffered, location, contactNumber, price };
+        const services = { name, servicesOffered, location, contactNumber, price };
 
         const response = await fetch('/api/services', {
             method: 'POST',
@@ -34,6 +35,7 @@ const PostProvider = () => {
 
         if (!response.ok) {
             setError(json.error);
+            setSuccessMessage(null);
         }
         if (response.ok) {
             setName('');
@@ -42,7 +44,8 @@ const PostProvider = () => {
             setContactNumber('');
             setPrice('');
             setError(null);
-            dispatch({ type: 'ADD_PROVIDER', payload: json });
+            setSuccessMessage('Service added successfully!'); // Set success message
+            dispatch({ type: 'CREATE_PROVIDER', payload: json });
         }
     };
 
@@ -95,9 +98,10 @@ const PostProvider = () => {
                     Add Service
                 </button>
                 {error && <div className="text-red-500 text-xs italic mt-4">{error}</div>}
+                {successMessage && <div className="text-green-500 text-xs italic mt-4">{successMessage}</div>} {/* Display success message */}
             </form>
         </div>
     );
 };
 
-export default PostProvider;
+export default CreateService;
