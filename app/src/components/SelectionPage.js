@@ -18,9 +18,9 @@ const SelectionPage = () => {
   };
 
   return (
-    <div>
-      <div className="flex h-screen flex-row items-center justify-center bg-gray-100 gap-28">
-        <div className="h-64 w-96 bg-white p-4 hover:bg-slate-300 justify-center items-center flex flex-col">
+    <div className="bg-white min-h-screen flex flex-col items-center justify-center">
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="h-64 w-96 bg-gray-100 p-4 hover:bg-slate-300 justify-center items-center flex flex-col">
           <div className="text-center text-xl font-extrabold">Check Available Service Providers</div>
           <Link to='/display'>
             <button 
@@ -31,7 +31,7 @@ const SelectionPage = () => {
             </button>
           </Link>
         </div>
-        <div className="h-64 w-96 bg-white p-4 hover:bg-slate-300 justify-center items-center flex flex-col">
+        <div className="h-64 w-96 bg-gray-100 p-4 hover:bg-slate-300 justify-center items-center flex flex-col">
           <div className="text-center text-xl font-extrabold">Offer your Service</div>
           <Link to='/post'>
             <button 

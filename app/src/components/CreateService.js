@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useServicesContext } from "../hooks/useServicesContext";
 
 const CreateService = () => {
@@ -7,6 +7,8 @@ const CreateService = () => {
     const [name, setName] = useState('');
     const [servicesOffered, setServicesOffered] = useState('');
     const [location, setLocation] = useState('');
+    const [availableFrom, setAvailableFrom] = useState('');
+    const [availableTill, setAvailableTill] = useState('');
     const [contactNumber, setContactNumber] = useState('');
     const [price, setPrice] = useState('');
     const [error, setError] = useState(null);
@@ -15,17 +17,17 @@ const CreateService = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name || !servicesOffered || !location || !contactNumber || !price) {
+        if (!name || !servicesOffered || !location || !availableFrom || !availableTill || !contactNumber || !price) {
             setError('Fill all fields');
             setSuccessMessage(null);
             return;
         }
 
-        const services = { name, servicesOffered, location, contactNumber, price };
+        const services = { name, servicesOffered, availableFrom, availableTill, location, contactNumber, price };
 
         const response = await fetch('/api/services', {
             method: 'POST',
-            body: JSON.stringify(provider),
+            body: JSON.stringify(services),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -41,16 +43,19 @@ const CreateService = () => {
             setName('');
             setServicesOffered('');
             setLocation('');
+            setAvailableFrom('');
+            setAvailableTill('');
             setContactNumber('');
             setPrice('');
             setError(null);
             setSuccessMessage('Service added successfully!'); // Set success message
-            dispatch({ type: 'CREATE_PROVIDER', payload: json });
+            dispatch({ type: 'CREATE_SERVICE', payload: json });
         }
     };
+    
 
     return (
-        <div className="bg-gray-100 mt-10">
+        <div className="bg-white min-h-screen flex items-center justify-center">
             <form className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
                 <h3 className="text-2xl font-bold mb-4">Add your Service</h3>
 
@@ -61,8 +66,7 @@ const CreateService = () => {
                     value={name}
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
-
-                <label className="block text-gray-700 text-sm font-bold mb-2 mt-2">Service Offered: </label>
+                <label className="block text-gray-700 text-sm font-bold mb-2 mt-2">Service Offering: </label>
                 <input
                     type="text"
                     onChange={(e) => setServicesOffered(e.target.value)}
@@ -75,6 +79,23 @@ const CreateService = () => {
                     type="text"
                     onChange={(e) => setLocation(e.target.value)}
                     value={location}
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+                
+                <p className="block text-gray-700 text-sm font-bold mb-2 mt-2">Available</p>
+                <label className="block text-gray-700 text-sm font-bold mb-2 mt-2">From: </label>
+                <input
+                    type="datetime-local"
+                    onChange={(e) => setAvailableFrom(e.target.value)}
+                    value={availableFrom}
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+
+                <label className="block text-gray-700 text-sm font-bold mb-2 mt-2">Till: </label>
+                <input
+                    type="datetime-local"
+                    onChange={(e) => setAvailableTill(e.target.value)}
+                    value={availableTill}
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
 
