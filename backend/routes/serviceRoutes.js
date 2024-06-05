@@ -8,6 +8,8 @@ const {
     updateServiceProvider
 } = require('../controllers/serviceController')
 
+const requireAuth = require('../middleware/requireAuth');
+
 const router = express.Router();
 
 // Routes for service providers

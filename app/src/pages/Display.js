@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useServicesContext } from '../hooks/useServicesContext';
 
 import StoredServices from '../components/StoredServices';

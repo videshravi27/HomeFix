@@ -4,6 +4,7 @@ const Service = require('../models/serviceModel');
 // Get all service providers
 const getServiceProviders = async (req, res) => {
     try {
+        const user_id = req.user._id 
         const services = await Service.find({}).sort({ createdAt: -1 });
         res.status(200).json(services);
     } catch (error) {
@@ -51,8 +52,9 @@ const createServiceProvider = async (req, res) => {
     }
 
     try {
-        const service = await Service.create({ name, servicesOffered, location, availableFrom, availableTill, contactNumber, price });
-        res.status(201).json(service);
+        const user_id = req.user.id
+        const service = await Service.create({ name, servicesOffered, location, availableFrom, availableTill, contactNumber, price, user_id });
+        res.status(200).json(service);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -88,7 +90,9 @@ const updateServiceProvider = async (req, res) => {
     }
 
     try {
-        const service = await Service.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true });
+        const service = await Service.findOneAndUpdate({ _id: id }, { 
+            ...req.body
+        });
 
         if (!service) {
             return res.status(400).json({ error: 'No such service' });
