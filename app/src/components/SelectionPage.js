@@ -1,20 +1,10 @@
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useServicesContext } from '../hooks/useServicesContext'; 
-
 const SelectionPage = () => {
-  const [showLocation, setShowLocation] = useState(false); 
-  const [showPost, setShowPost] = useState(false);
-
-  const { services } = useServicesContext(); 
-
   const handleRequest = () => {
-    setShowLocation(true);
   };
 
   const handlePost = () => {
-    setShowPost(true);
   };
 
   return (

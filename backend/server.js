@@ -2,8 +2,8 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
-const serviceRoutes = require('./routes/serviceRoutes')
-const userRoutes = require('./routes/userRoutes')
+const serviceRoutes = require('./routes/services')
+const userRoutes = require('./routes/user')
 
 //Express App
 const app = express()

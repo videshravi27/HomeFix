@@ -1,12 +1,20 @@
 import { useServicesContext } from "../hooks/useServicesContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { format } from 'date-fns';
 
 const StoredServices = ({ service }) => {
     const { dispatch } = useServicesContext();
+    const { user } = useAuthContext();
 
     const handleClick = async () => {
+        if(!user){
+            return
+        }
         const response = await fetch('/api/services/' + service._id, {
             method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ' ${user.token}`
+            }
         });
         const json = await response.json();
 

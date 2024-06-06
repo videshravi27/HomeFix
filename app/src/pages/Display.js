@@ -1,31 +1,31 @@
 import { useEffect, useState } from 'react';
 import { useServicesContext } from '../hooks/useServicesContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 import StoredServices from '../components/StoredServices';
 
 const Display = () => {
     const { services, dispatch } = useServicesContext();
+    const { user } = useAuthContext();
     const [locationQuery, setLocationQuery] = useState('');
     const [serviceQuery, setServiceQuery] = useState('');
 
     useEffect(() => {
         const fetchServices = async () => {
-            try {
-                const response = await fetch('/api/services');
-                const json = await response.json();
-
-                if (response.ok) {
-                    dispatch({ type: 'SET_SERVICES', payload: json });
-                } else {
-                    console.error('Failed to fetch services:', json);
-                }
-            } catch (error) {
-                console.error('An error occurred while fetching services:', error);
+            const response = await fetch('/api/services', {
+                headers: {'Authorization': `Bearer ${user.token}`},
+            });
+            const json = await response.json();
+            
+            if (response.ok) {
+                dispatch({ type: 'SET_SERVICES', payload: json });
             }
-        };
+        }
 
-        fetchServices();
-    }, [dispatch]);
+        if(user) {
+            fetchServices();
+        }
+    }, [dispatch, user]);
 
     // Filter services based on location and service query
     const filteredServices = services.filter(service => {

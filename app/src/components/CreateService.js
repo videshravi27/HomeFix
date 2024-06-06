@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useServicesContext } from "../hooks/useServicesContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const CreateService = () => {
     const { dispatch } = useServicesContext();
+    const { user } = useAuthContext();
 
     const [name, setName] = useState('');
     const [servicesOffered, setServicesOffered] = useState('');
@@ -17,6 +19,12 @@ const CreateService = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if(!user){
+            setError('You must be logged in');
+            setSuccessMessage(null);
+            return;
+        }
+
         if (!name || !servicesOffered || !location || !availableFrom || !availableTill || !contactNumber || !price) {
             setError('Fill all fields');
             setSuccessMessage(null);
@@ -25,34 +33,40 @@ const CreateService = () => {
 
         const services = { name, servicesOffered, availableFrom, availableTill, location, contactNumber, price };
 
-        const response = await fetch('/api/services', {
-            method: 'POST',
-            body: JSON.stringify(services),
-            headers: {
-                'Content-Type': 'application/json'
+        try {
+            const response = await fetch('/api/services', {
+                method: 'POST',
+                body: JSON.stringify(services),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+
+            const json = await response.json();
+
+            if (!response.ok) {
+                setError(json.error);
+                setSuccessMessage(null);
+            } else {
+                console.log('Service created successfully:', json); // Log the response
+                setName('');
+                setServicesOffered('');
+                setLocation('');
+                setAvailableFrom('');
+                setAvailableTill('');
+                setContactNumber('');
+                setPrice('');
+                setError(null);
+                setSuccessMessage('Service added successfully!');
+                dispatch({ type: 'CREATE_SERVICE', payload: json });
             }
-        });
-
-        const json = await response.json();
-
-        if (!response.ok) {
-            setError(json.error);
+        } catch (error) {
+            console.error('An error occurred while creating the service:', error);
+            setError('An error occurred. Please try again.');
             setSuccessMessage(null);
         }
-        if (response.ok) {
-            setName('');
-            setServicesOffered('');
-            setLocation('');
-            setAvailableFrom('');
-            setAvailableTill('');
-            setContactNumber('');
-            setPrice('');
-            setError(null);
-            setSuccessMessage('Service added successfully!'); // Set success message
-            dispatch({ type: 'CREATE_SERVICE', payload: json });
-        }
     };
-    
 
     return (
         <div className="bg-white min-h-screen flex items-center justify-center">
@@ -119,7 +133,7 @@ const CreateService = () => {
                     Add Service
                 </button>
                 {error && <div className="text-red-500 text-xs italic mt-4">{error}</div>}
-                {successMessage && <div className="text-green-500 text-xs italic mt-4">{successMessage}</div>} {/* Display success message */}
+                {successMessage && <div className="text-green-500 text-xs italic mt-4">{successMessage}</div>}
             </form>
         </div>
     );
