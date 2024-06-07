@@ -9,6 +9,7 @@ import AboutUs from "./components/AboutUs";
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ReviewForm from './components/ReviewForm';
+import UserServices from "./components/UserServices";
 
 export default function App() {
   const { user } = useAuthContext();
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/login" element={!user ? <Login /> : <Navigate to="/"/>} />
           <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/"/>} />
           <Route path="/review" element={user? <ReviewForm /> : <Navigate to="/login"/>} />
+          <Route path="/user-services" element={user ? <UserServices /> : <Navigate to="/login" />} />
         </Routes>
       </div>
     </BrowserRouter>

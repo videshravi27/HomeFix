@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";  
 import { useServicesContext } from "../hooks/useServicesContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const CreateService = () => {
     const { dispatch } = useServicesContext();
     const { user } = useAuthContext();
+    const navigate = useNavigate(); 
 
     const [name, setName] = useState('');
     const [servicesOffered, setServicesOffered] = useState('');
@@ -19,7 +21,7 @@ const CreateService = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(!user){
+        if (!user) {
             setError('You must be logged in');
             setSuccessMessage(null);
             return;
@@ -49,7 +51,7 @@ const CreateService = () => {
                 setError(json.error);
                 setSuccessMessage(null);
             } else {
-                console.log('Service created successfully:', json); // Log the response
+                console.log('Service created successfully:', json); 
                 setName('');
                 setServicesOffered('');
                 setLocation('');
@@ -70,9 +72,8 @@ const CreateService = () => {
 
     const handlePostedServicesClick = () => {
         console.log("Posted Services clicked");
+        navigate('/user-services'); 
     };
-
-
 
     return (
         <div className="bg-white min-h-screen flex items-center justify-center">
@@ -138,11 +139,11 @@ const CreateService = () => {
                 <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-3">
                     Add Service
                 </button>
-                {error && <div className="text-red-500 text-xs italic mt-4">{error}</div>}
-                {successMessage && <div className="text-green-500 text-xs italic mt-4">{successMessage}</div>}
-                <button onClick={handlePostedServicesClick} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-3 ml-3">
+                <button type="button" onClick={handlePostedServicesClick} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-3 ml-3">
                     Posted Services
                 </button>
+                {error && <div className="text-red-500 text-xs italic mt-4">{error}</div>}
+                {successMessage && <div className="text-green-500 text-xs italic mt-4">{successMessage}</div>}
             </form>
         </div>
     );

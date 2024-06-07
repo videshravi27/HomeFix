@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuthContext } from "../hooks/useAuthContext";
-import StoredServices from './StoredServices';
+import UserStoredServices from './UserStoredServices';
 
 const UserServices = () => {
     const { user } = useAuthContext();
@@ -34,11 +34,15 @@ const UserServices = () => {
     }, [user]);
 
     return (
-        <div>
-            <h2 className="text-2xl font-bold mb-4">Your Services</h2>
-            {userServices.map(service => (
-                <StoredServices key={service._id} service={service} />
-            ))}
+        <div className="container mx-auto">
+            <h2 className="text-2xl font-bold mb-4 mt-3">Your Services</h2>
+            <div className="flex flex-wrap -mx-2">
+                {userServices.map(service => (
+                    <div key={service._id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-2 mb-4">
+                        <UserStoredServices service={service} />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
-import AboutUs from './AboutUs';
 
 const Navbar = () => {
     const { logout } = useLogout();
@@ -13,12 +12,12 @@ const Navbar = () => {
 
     return (
         <header className="bg-white p-4 text-black fixed top-0 w-full shadow-md z-10">
-            <div className="container mx-auto flex justify-between items-center">
-                <Link to="/">
-                    <h1 className="text-2xl font-bold">HouseFix</h1>
+            <div className="container mx-auto flex justify-between items-center relative">
+                <Link to="/" className="absolute left-1/2 transform -translate-x-1/2">
+                    <h1 className="text-2xl font-bold">HomeFix</h1>
                 </Link>
-                <Link to="/about">
-                    <h1 className="text-2xl font-bold ml-16">About Us</h1>
+                <Link to="/about" className="ml-16">
+                    <h1 className="text-2xl font-bold">About Us</h1>
                 </Link>
                 <nav className="ml-auto flex items-center">
                     {user && (
