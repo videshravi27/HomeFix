@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useServicesContext } from '../hooks/useServicesContext';
 import { useAuthContext } from '../hooks/useAuthContext';
-
 import StoredServices from '../components/StoredServices';
 
 const Display = () => {
@@ -12,27 +11,32 @@ const Display = () => {
 
     useEffect(() => {
         const fetchServices = async () => {
-            const response = await fetch('/api/services', {
-                headers: {'Authorization': `Bearer ${user.token}`},
-            });
-            const json = await response.json();
-            
-            if (response.ok) {
-                dispatch({ type: 'SET_SERVICES', payload: json });
-            }
-        }
+            if (!user) return;
 
-        if(user) {
-            fetchServices();
-        }
+            try {
+                const response = await fetch('/api/services', {
+                    headers: { 'Authorization': `Bearer ${user.token}` },
+                });
+                const json = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(json.message || 'Failed to fetch services');
+                }
+
+                dispatch({ type: 'SET_SERVICES', payload: json });
+            } catch (error) {
+                console.error('Error fetching services:', error);
+            }
+        };
+
+        fetchServices();
     }, [dispatch, user]);
 
-    // Filter services based on location and service query
-    const filteredServices = services.filter(service => {
-        const locationMatch = service.location.toLowerCase().includes(locationQuery.toLowerCase());
-        const serviceMatch = service.servicesOffered.join(', ').toLowerCase().includes(serviceQuery.toLowerCase());
+    const filteredServices = services ? services.filter(service => {
+        const locationMatch = service.location?.toLowerCase().includes(locationQuery.toLowerCase());
+        const serviceMatch = service.servicesOffered?.join(', ').toLowerCase().includes(serviceQuery.toLowerCase());
         return locationMatch && serviceMatch;
-    });
+    }) : [];
 
     return (
         <div className="ml-10">
