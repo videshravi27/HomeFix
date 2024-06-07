@@ -12,7 +12,7 @@ const StoredServices = ({ service }) => {
             <p className="text-gray-700 ml-2">To: {format(new Date(service.availableTill), 'hh:mm a')}</p>
             <p className="text-gray-700">Number: {service.contactNumber}</p>
             <p className="text-gray-700">Price: {service.price}</p>
-            <p className="text-gray-700">Posted: {format(new Date(service.createdAt), 'PPpp')}</p>
+            <p className="text-gray-700">Posted: {format(new Date(service.createdAt), 'hh:mm a')}</p>
             <a href={`tel:${service.contactNumber}`} className="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded">Call</a>
             <Link to="/review" state={{ serviceId: service._id }} className="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded">Review</Link>
         </div>
