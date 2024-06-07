@@ -68,6 +68,12 @@ const CreateService = () => {
         }
     };
 
+    const handlePostedServicesClick = () => {
+        console.log("Posted Services clicked");
+    };
+
+
+
     return (
         <div className="bg-white min-h-screen flex items-center justify-center">
             <form className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
@@ -134,6 +140,9 @@ const CreateService = () => {
                 </button>
                 {error && <div className="text-red-500 text-xs italic mt-4">{error}</div>}
                 {successMessage && <div className="text-green-500 text-xs italic mt-4">{successMessage}</div>}
+                <button onClick={handlePostedServicesClick} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-3 ml-3">
+                    Posted Services
+                </button>
             </form>
         </div>
     );

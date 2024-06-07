@@ -3,21 +3,23 @@ const mongoose = require('mongoose');
 
 // Get all service providers
 const getServiceProviders = async (req, res) => {
-    const user_id = req.user._id
-    
-    const services = await Service.find({ user_id }).sort({ createdAt: -1 })
-    res.status(200).json(services)
+    try{
+        const services = await Service.find({}).sort({ createdAt: -1 })
+        res.status(200).json(services)
+    }catch(err){
+        res.status(400).json({error: err.message})
+    }
 }
 
 // Get a single service provider by ID
 const getServiceProviderById = async (req, res) => {
-    const { id } = req.params;
+    const user_id = req.user._id;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!mongoose.Types.ObjectId.isValid(user_id)) {
         return res.status(404).json({ error: 'Invalid service ID' });
     }
 
-    const service = await Service.findById(id);
+    const service = await Service.find({ user_id });
 
     if (!service) {
         return res.status(404).json({ error: 'No service found' });
