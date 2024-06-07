@@ -7,13 +7,13 @@ const StoredServices = ({ service }) => {
     const { user } = useAuthContext();
 
     const handleClick = async () => {
-        if(!user){
-            return
+        if (!user) {
+            return;
         }
         const response = await fetch('/api/services/' + service._id, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ' ${user.token}`
+                'Authorization': `Bearer ${user.token}`
             }
         });
         const json = await response.json();
@@ -43,6 +43,7 @@ const StoredServices = ({ service }) => {
             <p className="text-gray-700">Number: {service.contactNumber}</p>
             <p className="text-gray-700">Price: {service.price}</p>
             <p className="text-gray-700">Posted: {format(new Date(service.createdAt), 'PPpp')}</p>
+            <a href={`tel:${service.contactNumber}`} className="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded">Call</a>
         </div>
     );
 };
