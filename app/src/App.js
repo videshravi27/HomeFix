@@ -8,6 +8,7 @@ import SelectionPage from './components/SelectionPage';
 import AboutUs from "./components/AboutUs";
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import ReviewForm from './components/ReviewForm';
 
 export default function App() {
   const { user } = useAuthContext();
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/post" element={user ? <CreateService /> : <Navigate to="/login"/>} />
           <Route path="/login" element={!user ? <Login /> : <Navigate to="/"/>} />
           <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/"/>} />
+          <Route path="/review" element={user? <ReviewForm /> : <Navigate to="/login"/>} />
         </Routes>
       </div>
     </BrowserRouter>
