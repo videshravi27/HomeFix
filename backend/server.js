@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const serviceRoutes = require('./routes/services');
 const userRoutes = require('./routes/user');
@@ -12,6 +13,16 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+
+// Use CORS
+const corsOptions = {
+    origin: 'http://your-frontend-domain.com', // Replace with your frontend's domain
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
 
 // Log middleware
 app.use((req, res, next) => {
