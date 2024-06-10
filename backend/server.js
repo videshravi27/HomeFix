@@ -16,7 +16,7 @@ app.use(express.json());
 
 // Use CORS
 const corsOptions = {
-    origin: 'http://your-frontend-domain.com', // Replace with your frontend's domain
+    origin: 'https://home-fix-five.vercel.app', // Replace with your frontend's domain
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204
