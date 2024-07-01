@@ -14,15 +14,13 @@ const app = express();
 // Middleware
 app.use(express.json());
 
-// Use CORS
-const corsOptions = {
-    origin: 'https://home-fix-five.vercel.app', // Replace with your frontend's domain
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    optionsSuccessStatus: 204
-};
+// const corsOptions = {
+//     origin: 'https://home-fix-five.vercel.app', // Replace with your frontend's domain
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     credentials: true,
+//     optionsSuccessStatus: 204
 
-app.use(cors(corsOptions));
+app.use(cors);
 
 // Log middleware
 app.use((req, res, next) => {
