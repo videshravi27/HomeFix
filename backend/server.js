@@ -14,13 +14,20 @@ const app = express();
 // Middleware
 app.use(express.json());
 
-// const corsOptions = {
-//     origin: 'https://home-fix-five.vercel.app', // Replace with your frontend's domain
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     credentials: true,
-//     optionsSuccessStatus: 204
-
-app.use(cors);
+const allowedOrigins = ['https://home-fix-pi.vercel.app/login', 'https://home-fix-0xyg.onrender.com'];
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
 
 // Log middleware
 app.use((req, res, next) => {
