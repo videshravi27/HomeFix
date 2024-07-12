@@ -13,8 +13,13 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors()); 
 
+const corsOptions = {
+    origin: 'https://homefix-qahi.onrender.com', // Your Vercel deployed site
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 // Log middleware
 app.use((req, res, next) => {
