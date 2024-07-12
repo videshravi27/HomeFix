@@ -27,6 +27,10 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get('/', (req, res) => {
+    res.send('Welcome to the HomeFix MERN Backend!');
+});
+
 // Routes
 app.use('/api/services', serviceRoutes);
 app.use('/api/user', userRoutes);
