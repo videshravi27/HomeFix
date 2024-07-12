@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-    origin: 'https://homefix-qahi.onrender.com', // Your Vercel deployed site
+    origin: ['https://homefix-qahi.onrender.com', 'https://homefix-indol.vercel.app'], // Your Vercel deployed site
     optionsSuccessStatus: 200
 };
 
